@@ -1,0 +1,9 @@
+# Core dependencies for the traditional sparse-model and audit routes.
+# Versions recorded for the main numerical stack are retained where available;
+# this is not a complete environment lockfile.
+numpy==1.26.4
+pandas==3.0.3
+scikit-learn==1.8.0
+scipy
+joblib
+matplotlib

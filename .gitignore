@@ -1,0 +1,40 @@
+# Python and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Organizer data and local artifacts
+data/
+official/
+outputs/
+logs/
+models/
+checkpoints/
+wandb/
+tmp/
+cache/
+.cache/
+
+# Predictions, submissions, archives, and model files
+*.csv
+*.zip
+*.joblib
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
+*.onnx
+
+# Secrets and local metadata
+.env
+.env.*
+*.pem
+*.key
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Zone.Identifier

@@ -1,0 +1,70 @@
+{
+  "stage": "Stage 4 Transformer Inference and Mixed Submission",
+  "template": "official/baseline_predictions.csv",
+  "transformer_prediction_dir": "outputs/transformer_baseline/predictions",
+  "phase_b_prediction_dir": "outputs/phase_b_final/predictions",
+  "submission_root": "outputs/transformer_mixed_submissions",
+  "language_order": [
+    "English",
+    "Kannada",
+    "Tulu"
+  ],
+  "language_row_counts": {
+    "English": 514,
+    "Kannada": 1370,
+    "Tulu": 685
+  },
+  "transformer_tasks": {
+    "english_regret": {
+      "model_dir": "models/transformer_baseline/english_regret/best",
+      "prediction_file": "outputs/transformer_baseline/predictions/english_regret_test_predictions.csv"
+    },
+    "english_domain": {
+      "model_dir": "models/transformer_baseline/english_domain/best",
+      "prediction_file": "outputs/transformer_baseline/predictions/english_domain_test_predictions.csv"
+    },
+    "tulu_regret": {
+      "model_dir": "models/transformer_baseline/tulu_regret/best",
+      "prediction_file": "outputs/transformer_baseline/predictions/tulu_regret_test_predictions.csv"
+    },
+    "tulu_domain": {
+      "model_dir": "models/transformer_baseline/tulu_domain/best",
+      "prediction_file": "outputs/transformer_baseline/predictions/tulu_domain_test_predictions.csv"
+    }
+  },
+  "phase_b_predictions": {
+    "english_regret": "outputs/phase_b_final/predictions/english_regret.csv",
+    "english_domain": "outputs/phase_b_final/predictions/english_domain.csv",
+    "kannada_regret": "outputs/phase_b_final/predictions/kannada_regret.csv",
+    "tulu_regret": "outputs/phase_b_final/predictions/tulu_regret.csv",
+    "tulu_domain": "outputs/phase_b_final/predictions/tulu_domain.csv"
+  },
+  "candidates": {
+    "candidate_a_phase_b": {
+      "output_dir": "outputs/transformer_mixed_submissions/candidate_a_phase_b",
+      "sources": {
+        "english_regret": "phase_b",
+        "english_domain": "phase_b",
+        "kannada_regret": "phase_b",
+        "tulu_regret": "phase_b",
+        "tulu_domain": "phase_b"
+      }
+    },
+    "candidate_b_english_transformer": {
+      "output_dir": "outputs/transformer_mixed_submissions/candidate_b_english_transformer",
+      "sources": {
+        "english_regret": "transformer",
+        "english_domain": "transformer",
+        "kannada_regret": "phase_b",
+        "tulu_regret": "phase_b",
+        "tulu_domain": "phase_b"
+      }
+    }
+  },
+  "inference": {
+    "batch_size": 16,
+    "max_length": 256,
+    "bf16": true,
+    "cuda_required": true
+  }
+}

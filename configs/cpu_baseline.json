@@ -1,0 +1,28 @@
+{
+  "phase": "Phase A",
+  "seed": 2026,
+  "validation_fraction": 0.2,
+  "vectorizer": {
+    "analyzer": "char",
+    "ngram_range": [3, 5],
+    "min_df": 2,
+    "sublinear_tf": true,
+    "max_features": 150000
+  },
+  "classifier": {
+    "type": "LinearSVC",
+    "C": 1.0,
+    "class_weight": "balanced"
+  },
+  "kannada_group_cv": {
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 2026,
+    "group_key": "sha256(normalized_text)"
+  },
+  "text": {
+    "normalization": ["Unicode NFKC", "strip", "collapse whitespace"],
+    "english_tulu_format": "[TITLE] {title}\n[TEXT] {text}",
+    "kannada_field": "Text"
+  }
+}

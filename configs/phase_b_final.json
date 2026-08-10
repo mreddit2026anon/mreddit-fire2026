@@ -1,0 +1,130 @@
+{
+  "phase": "Phase B Finalization",
+  "seed": 2026,
+  "python": "python",
+  "text": {
+    "english_tulu_format": "[TITLE] {title}\n[TEXT] {text}",
+    "kannada_field": "Text",
+    "normalization": [
+      "Unicode NFKC",
+      "strip",
+      "collapse whitespace"
+    ]
+  },
+  "features": {
+    "char": {
+      "analyzer": "char",
+      "ngram_range": [3, 5],
+      "min_df": 2,
+      "sublinear_tf": true,
+      "max_features": 150000
+    },
+    "word_char": {
+      "char": {
+        "analyzer": "char",
+        "ngram_range": [3, 5],
+        "min_df": 2,
+        "sublinear_tf": true,
+        "max_features": 100000
+      },
+      "word": {
+        "analyzer": "word",
+        "ngram_range": [1, 2],
+        "min_df": 2,
+        "sublinear_tf": true,
+        "max_features": 50000
+      }
+    }
+  },
+  "classifiers": {
+    "logistic_regression_ovr": {
+      "type": "LogisticRegression",
+      "wrapper": "OneVsRestClassifier",
+      "solver": "liblinear",
+      "C": 1.0,
+      "max_iter": 2000,
+      "class_weight": "balanced",
+      "random_state": 2026
+    },
+    "phase_a_linearsvc": {
+      "type": "LinearSVC",
+      "C": 1.0,
+      "class_weight": "balanced",
+      "random_state": 2026
+    }
+  },
+  "task_order": [
+    "english_regret",
+    "tulu_regret",
+    "english_domain",
+    "tulu_domain",
+    "kannada_regret"
+  ],
+  "tasks": {
+    "english_regret": {
+      "action": "train",
+      "feature": "word_char",
+      "classifier": "logistic_regression_ovr",
+      "include_kannada_validation": false,
+      "training_rows": 2911,
+      "phase_b_cv_macro_f1_mean": 0.687734,
+      "phase_b_cv_macro_f1_std": 0.025768,
+      "phase_a_control_macro_f1_mean": 0.661604,
+      "phase_b_improvement": 0.026130
+    },
+    "tulu_regret": {
+      "action": "train",
+      "feature": "char",
+      "classifier": "logistic_regression_ovr",
+      "include_kannada_validation": false,
+      "training_rows": 2740,
+      "phase_b_cv_macro_f1_mean": 0.675590,
+      "phase_b_cv_macro_f1_std": 0.035770,
+      "phase_a_control_macro_f1_mean": 0.661777,
+      "phase_b_improvement": 0.013813
+    },
+    "english_domain": {
+      "action": "copy_phase_a",
+      "feature": "char",
+      "classifier": "phase_a_linearsvc",
+      "include_kannada_validation": false,
+      "training_rows": 2911,
+      "source_model": "models/cpu_baseline/english_domain.joblib",
+      "source_metadata": "models/cpu_baseline/english_domain.json",
+      "phase_b_cv_macro_f1_mean": 0.596718,
+      "phase_b_cv_macro_f1_std": 0.038251,
+      "phase_b_improvement": 0.0
+    },
+    "tulu_domain": {
+      "action": "copy_phase_a",
+      "feature": "char",
+      "classifier": "phase_a_linearsvc",
+      "include_kannada_validation": false,
+      "training_rows": 2740,
+      "source_model": "models/cpu_baseline/tulu_domain.joblib",
+      "source_metadata": "models/cpu_baseline/tulu_domain.json",
+      "phase_b_cv_macro_f1_mean": 0.638181,
+      "phase_b_cv_macro_f1_std": 0.051815,
+      "phase_b_improvement": 0.0
+    },
+    "kannada_regret": {
+      "action": "copy_phase_a",
+      "feature": "char",
+      "classifier": "phase_a_linearsvc",
+      "include_kannada_validation": true,
+      "training_rows": 5478,
+      "source_model": "models/cpu_baseline/kannada_regret.joblib",
+      "source_metadata": "models/cpu_baseline/kannada_regret.json",
+      "phase_b_improvement": 0.0
+    }
+  },
+  "expected_raw_sha256": {
+    "data/raw/training_data/english_train_data.csv": "09d5c8c87083014b340c6e64f788dc43efa2b9dfa8f9b4bad9d3a2c03fc05bf4",
+    "data/raw/training_data/tulu_train_data.csv": "25c6b30c6d049b08321638cab2829c2e7421670019c2be385bd39a7a196bd2ab",
+    "data/raw/training_data/kannada_train_data.csv": "cada545141fd8a9e52a0385f92eaa4647856b861c947709392de5633aa7269d8",
+    "data/raw/training_data/kannada_validation_data.csv": "1809bdd7053c1ef1502af6d196fe1dcf7258e05fde7b27033b0a9c49468dfa66",
+    "data/raw/test_data/english_test_data.csv": "8ee774d90673441e9cd1263dd4929eb87d942dfe0754b7530542cc3a4fb649e7",
+    "data/raw/test_data/tulu_test_data.csv": "64437aa69f947fbe40294c6a8b0d6f1704f0342b7880aa496c37abe4404674a7",
+    "data/raw/test_data/kannada_test_data.csv": "1845e0ff08e1ced68b5f83fa426f5220fd937b2b88947b094e7e8ef2150698a3"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "phase": "04-GPU Transformer Baseline",
+  "model_name": "FacebookAI/xlm-roberta-base",
+  "seed": 2026,
+  "validation_fraction": 0.2,
+  "first_task": "english_domain",
+  "allowed_tasks": [
+    "english_domain",
+    "english_regret",
+    "tulu_regret",
+    "tulu_domain"
+  ],
+  "planned_tasks": [
+    "english_regret",
+    "english_domain",
+    "tulu_regret",
+    "tulu_domain",
+    "kannada_regret"
+  ],
+  "tasks": {
+    "english_domain": {
+      "language": "English",
+      "target": "Domain",
+      "validation": "stratified_80_20",
+      "status": "completed_on_autodl"
+    },
+    "english_regret": {
+      "language": "English",
+      "target": "Regret",
+      "validation": "stratified_80_20",
+      "status": "enabled_not_trained"
+    },
+    "tulu_regret": {
+      "language": "Tulu",
+      "target": "Regret",
+      "validation": "stratified_80_20",
+      "status": "enabled_not_trained"
+    },
+    "tulu_domain": {
+      "language": "Tulu",
+      "target": "Domain",
+      "validation": "stratified_80_20",
+      "status": "enabled_not_trained"
+    }
+  },
+  "labels": {
+    "Regret": {
+      "Action": 0,
+      "Inaction": 1,
+      "No Regret": 2
+    },
+    "Domain": {
+      "Education": 0,
+      "Health": 1,
+      "Career and Finance": 2,
+      "Romance friends and parents": 3,
+      "Other domains": 4
+    }
+  },
+  "text": {
+    "english_tulu_format": "[TITLE] {title}\n[TEXT] {text}",
+    "kannada_field": "Text",
+    "normalization": [
+      "Unicode NFKC",
+      "strip",
+      "collapse whitespace"
+    ],
+    "max_length": 256,
+    "dynamic_padding": true
+  },
+  "training": {
+    "per_device_train_batch_size": 8,
+    "per_device_eval_batch_size": 16,
+    "gradient_accumulation_steps": 2,
+    "learning_rate": 0.00002,
+    "num_train_epochs": 5,
+    "warmup_ratio": 0.1,
+    "weight_decay": 0.01,
+    "max_grad_norm": 1.0,
+    "bf16": true,
+    "fp16": false,
+    "early_stopping_patience": 2,
+    "save_total_limit": 2,
+    "metric_for_best_model": "macro_f1",
+    "greater_is_better": true,
+    "dataloader_num_workers": 2,
+    "logging_steps": 10
+  },
+  "class_weights": {
+    "formula": "sqrt(N / (K * count_c))",
+    "normalization": "arithmetic mean equals 1",
+    "source": "current training split only"
+  },
+  "smoke": {
+    "train_samples_per_class": 3,
+    "eval_samples_per_class": 1,
+    "max_steps": 2,
+    "per_device_train_batch_size": 2,
+    "per_device_eval_batch_size": 5
+  },
+  "outputs": {
+    "root": "outputs/transformer_baseline",
+    "checkpoints": "checkpoints/transformer_baseline",
+    "models": "models/transformer_baseline",
+    "logs": "logs/transformer_baseline"
+  },
+  "environment": {
+    "python": "3.12.11",
+    "torch": "2.9.1+cu130",
+    "transformers": "4.57.6",
+    "accelerate": "1.14.0",
+    "sentencepiece": "0.2.1",
+    "safetensors": "0.8.0",
+    "cuda_required": true,
+    "bf16_required": true
+  }
+}

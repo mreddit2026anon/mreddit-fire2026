@@ -1,0 +1,145 @@
+{
+  "phase": "Phase B",
+  "seed": 2026,
+  "cv": {
+    "type": "StratifiedKFold",
+    "n_splits": 5,
+    "shuffle": true,
+    "random_state": 2026
+  },
+  "text": {
+    "format": "[TITLE] {title}\n[TEXT] {text}",
+    "normalization": [
+      "Unicode NFKC",
+      "strip",
+      "collapse whitespace"
+    ]
+  },
+  "features": {
+    "char": {
+      "analyzer": "char",
+      "ngram_range": [3, 5],
+      "min_df": 2,
+      "sublinear_tf": true,
+      "max_features": 150000
+    },
+    "word": {
+      "analyzer": "word",
+      "ngram_range": [1, 2],
+      "min_df": 2,
+      "sublinear_tf": true,
+      "max_features": 75000
+    },
+    "word_char": {
+      "char": {
+        "analyzer": "char",
+        "ngram_range": [3, 5],
+        "min_df": 2,
+        "sublinear_tf": true,
+        "max_features": 100000
+      },
+      "word": {
+        "analyzer": "word",
+        "ngram_range": [1, 2],
+        "min_df": 2,
+        "sublinear_tf": true,
+        "max_features": 50000
+      }
+    },
+    "word_char_reduced": {
+      "char": {
+        "analyzer": "char",
+        "ngram_range": [3, 5],
+        "min_df": 2,
+        "sublinear_tf": true,
+        "max_features": 75000
+      },
+      "word": {
+        "analyzer": "word",
+        "ngram_range": [1, 2],
+        "min_df": 2,
+        "sublinear_tf": true,
+        "max_features": 40000
+      }
+    }
+  },
+  "classifiers": {
+    "LinearSVC": {
+      "C": 1.0,
+      "random_state": 2026
+    },
+    "LogisticRegression": {
+      "solver": "liblinear",
+      "multiclass_strategy": "OneVsRestClassifier wrapper required by scikit-learn 1.8.0",
+      "C": 1.0,
+      "max_iter": 2000,
+      "random_state": 2026
+    }
+  },
+  "resource_guards": {
+    "total_experiment_seconds": 9000,
+    "candidate_timeout_seconds": 720,
+    "memory_load_percent_for_reduced_union": 90,
+    "minimum_available_memory_gib": 4
+  },
+  "selection": {
+    "macro_f1_close_threshold": 0.005,
+    "std_close_threshold": 0.005,
+    "stable_alternative_window": 0.01,
+    "domain_minority_labels": [
+      "Health",
+      "Education",
+      "Career and Finance"
+    ]
+  },
+  "task_order": [
+    "english_domain",
+    "tulu_regret",
+    "english_regret",
+    "tulu_domain"
+  ],
+  "tasks": {
+    "english_domain": {
+      "candidates": [
+        {"id": "char_linearsvc_none", "feature": "char", "model": "LinearSVC", "class_weight": null},
+        {"id": "char_linearsvc_balanced", "feature": "char", "model": "LinearSVC", "class_weight": "balanced"},
+        {"id": "char_logreg_none", "feature": "char", "model": "LogisticRegression", "class_weight": null},
+        {"id": "char_logreg_balanced", "feature": "char", "model": "LogisticRegression", "class_weight": "balanced"},
+        {"id": "word_linearsvc_none", "feature": "word", "model": "LinearSVC", "class_weight": null},
+        {"id": "word_linearsvc_balanced", "feature": "word", "model": "LinearSVC", "class_weight": "balanced"},
+        {"id": "word_logreg_none", "feature": "word", "model": "LogisticRegression", "class_weight": null},
+        {"id": "word_logreg_balanced", "feature": "word", "model": "LogisticRegression", "class_weight": "balanced"},
+        {"id": "word_char_linearsvc_none", "feature": "word_char", "model": "LinearSVC", "class_weight": null},
+        {"id": "word_char_linearsvc_balanced", "feature": "word_char", "model": "LinearSVC", "class_weight": "balanced"},
+        {"id": "word_char_logreg_none", "feature": "word_char", "model": "LogisticRegression", "class_weight": null},
+        {"id": "word_char_logreg_balanced", "feature": "word_char", "model": "LogisticRegression", "class_weight": "balanced"}
+      ]
+    },
+    "tulu_regret": {
+      "candidates": [
+        {"id": "char_linearsvc_none", "feature": "char", "model": "LinearSVC", "class_weight": null},
+        {"id": "char_linearsvc_balanced", "feature": "char", "model": "LinearSVC", "class_weight": "balanced"},
+        {"id": "char_logreg_none", "feature": "char", "model": "LogisticRegression", "class_weight": null},
+        {"id": "char_logreg_balanced", "feature": "char", "model": "LogisticRegression", "class_weight": "balanced"},
+        {"id": "word_char_linearsvc_none", "feature": "word_char", "model": "LinearSVC", "class_weight": null},
+        {"id": "word_char_linearsvc_balanced", "feature": "word_char", "model": "LinearSVC", "class_weight": "balanced"},
+        {"id": "word_char_logreg_none", "feature": "word_char", "model": "LogisticRegression", "class_weight": null},
+        {"id": "word_char_logreg_balanced", "feature": "word_char", "model": "LogisticRegression", "class_weight": "balanced"}
+      ]
+    },
+    "english_regret": {
+      "candidates": [
+        {"id": "char_linearsvc_balanced", "feature": "char", "model": "LinearSVC", "class_weight": "balanced"},
+        {"id": "word_char_linearsvc_balanced", "feature": "word_char", "model": "LinearSVC", "class_weight": "balanced"},
+        {"id": "word_char_logreg_balanced", "feature": "word_char", "model": "LogisticRegression", "class_weight": "balanced"}
+      ]
+    },
+    "tulu_domain": {
+      "candidates": [
+        {"id": "char_linearsvc_balanced", "feature": "char", "model": "LinearSVC", "class_weight": "balanced"},
+        {"id": "word_char_linearsvc_balanced", "feature": "word_char", "model": "LinearSVC", "class_weight": "balanced"}
+      ]
+    }
+  },
+  "phase_a_control_candidate": "char_linearsvc_balanced"
+}
